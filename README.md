@@ -167,7 +167,7 @@
     **Content:**
     ```
     { 
-        errors : ["Name is required", "Price must greater than 0", "Stock must be greater than 0", "Stock is not allowed with decimal value"]
+        errors : ["Name is required",  "Image Url is required" ,"Price is required", "Price must greater than 0",  "Stock is required","Stock must be greater than 0", "Stock is not allowed with decimal value"]
     }
     ```
 

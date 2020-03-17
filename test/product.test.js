@@ -1,14 +1,40 @@
 const app = require('../app')
 const request = require('supertest')
+const { Product } = require('../models')
 
 
 describe('Product Routes', () => {
+    let productId
     const product = {
         name : "Bottle",
-        img_url : "image.jpg",
+        image_url : "image.jpg",
         price: 12000,
         stock: 8
     }
+
+    beforeAll((done) => {
+        Product
+            .create(product)
+            .then(product => {
+                console.log(product, '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+                productId = product.id
+                done()
+            })
+            .catch(err => {
+                done(err)
+            })
+    })
+
+    afterAll((done) => {
+        Product
+            .destroy({
+                where : {}
+            })
+            .then(response => {
+                done()
+            })
+            .catch(err => done(err))
+    })
 
     describe('Product Create Test', () => {
         describe('Product Create Success', () => {
@@ -18,32 +44,33 @@ describe('Product Routes', () => {
                     .send(product)
                     .end((err, response) => {
                         expect(err).toBe(null)
-                        expect(status).toBe(201)
-                        expect('id').toBe(expect.any(Number))
-                        expect('name').toBe("Bottle")
-                        expect('price').toBe(12000)
-                        expect('stock').toBe(8)
+                        expect(response.body).toHaveProperty('id', expect.any(Number))
+                        expect(response.body).toHaveProperty('name', expect.any(String))
+                        expect(response.body).toHaveProperty('price', expect.any(Number))
+                        expect(response.body).toHaveProperty('stock', expect.any(Number))
+                        expect(response.status).toBe(201)
                         done()
                     })
             }) 
         })
 
         describe('Product Create Error', () => {
-            let errors = ["Name is required", "Price must greater than 0", "Stock must be greater than 0", "Stock is not allowed with decimal value"]
+            let errors = ["Name is required",  "Image Url is required" ,"Price is required", "Price must greater than 0",  "Stock is required","Stock must be greater than 0", "Stock is not allowed with decimal value"]
             test('it should return array of errors and status 400', () => {
                 request(app)
                     .get('/products')
                     .send({
                         name : "",
-                        img_url : "image.jpg",
+                        image_url : "image.jpg",
                         price: -12000,
                         stock: 8.6
                     })
                     .end((err, response) => {
                         expect(err).toBe(null)
-                        expect(status).toBe(400)
-                        expect('errors').toBe(expect.any(Array))
-                        expect('errors').toBe(expect.arrayContaining(errors))
+                        expect(response.body).toHaveProperty('errors')
+                        expect(response.body.errors.length).toBeGreaterThan(0)
+                        // expect(response.body.errors).toEqual(expect.arrayContaining(errors))
+                        expect(response.status).toBe(400)
                         done()
                     })
             }) 
@@ -57,14 +84,15 @@ describe('Product Routes', () => {
                     .get('/products')
                     .end((err, response) => {
                         expect(err).toBe(null)
-                        expect(status).toBe(200)
-                        expect(response).toBe(expect.any(Array))
-                        expect(response).toBe(expect.arrayContaining({
-                            name : "Bottle",
-                            img_url : "image.jpg",
-                            price: 12000,
-                            stock: 8
-                        }))
+
+                        expect(response.body).toBe(expect.any(Array))
+                        expect(response.status).toBe(200)
+                        // expect(response.body).toBe(expect.arrayContaining({
+                        //     name : "Bottle",
+                        //     image_url : "image.jpg",
+                        //     price: 12000,
+                        //     stock: 8
+                        // }))
                         done()
                     })
             }) 
@@ -76,8 +104,10 @@ describe('Product Routes', () => {
                     .get('/products')
                     .end((err, response) => {
                         expect(err).toBe(null)
-                        expect(status).toBe(404)
-                        expect('error').toBe("Product not found")
+                        expect(response.body).toHaveProperty('errors')
+                        expect(response.body.errors.length).toBeGreaterThan(0)
+                        // expect(response.body.errors).toEqual(expect.arrayContaining(errors))
+                        expect(response.status).toBe(400)
                         done()
                     })
             }) 
@@ -91,12 +121,13 @@ describe('Product Routes', () => {
                     .get(`/products/${productId}`)
                     .end((err, response) => {
                         expect(err).toBe(null)
-                        expect(status).toBe(200)
-                        expect('id').toBe(expect.any(Number))
-                        expect('name').toBe(expect.any(String))
-                        expect('img_url').toBe(expect.any(String))
-                        expect('price').toBe(expect.any(Number))
-                        expect('stock').toBe(expect.any(Number))
+                        expect(response.body).toBe(expect.any(Array))
+                        expect(response.status).toBe(200)
+                        expect(response.body.id).toBe(expect.any(Number))
+                        expect(response.body.name).toBe(expect.any(String))
+                        expect(response.body.image_url).toBe(expect.any(String))
+                        expect(response.body.price).toBe(expect.any(Number))
+                        expect(response.body.stock).toBe(expect.any(Number))
                         done()
                     })
             }) 
@@ -105,11 +136,14 @@ describe('Product Routes', () => {
         describe('Product Find One Error', () => {
             test('it should return object and status 404', () => {
                 request(app)
-                    .get(`/products/${productId}`)
+                    .get(`/products/1029`)
                     .end((err, response) => {
                         expect(err).toBe(null)
-                        expect(status).toBe(404)
-                        expect('error').toBe("Product not found")
+
+                        expect(response.body).toHaveProperty('error')
+                        expect(response.body.error).toBe("Product not found")
+                        // expect(response.body.errors).toEqual(expect.arrayContaining(errors))
+                        expect(response.status).toBe(404)
                         done()
                     })
             }) 
@@ -126,12 +160,12 @@ describe('Product Routes', () => {
                     })
                     .end((err, response) => {
                         expect(err).toBe(null)
-                        expect(status).toBe(200)
-                        expect('id').toBe(productId)
-                        expect('name').toBe("Sauce Bottle")
-                        expect('img_url').toBe(expect.any(String))
-                        expect('price').toBe(expect.any(Number))
-                        expect('stock').toBe(expect.any(Number))
+                        expect(response.status).toBe(200)
+                        expect(response.body).toHaveProperty('id', expect.any(Number))
+                        expect(response.body).toHaveProperty('name', expect.any(String))
+                        expect(response.body).toHaveProperty('image_url', expect.any(String))
+                        expect(response.body).toHaveProperty('price', expect.any(Number))
+                        expect(response.body).toHaveProperty('stock', expect.any(Number))
                         done()
                     })
             }) 
@@ -149,8 +183,9 @@ describe('Product Routes', () => {
                     })
                     .end((err, response) => {
                         expect(err).toBe(null)
-                        expect(status).toBe(400)
-                        expect('errors').toBe(errors)
+                        expect(response.status).toBe(400)
+                        expect(response.body).toHaveProperty('errors')
+                        expect(response.body.errors).toBeGreaterThan(0)
                         done()
                     })
             }) 
@@ -165,12 +200,12 @@ describe('Product Routes', () => {
                     .delete(`/products/${productId}`)
                     .end((err, response) => {
                         expect(err).toBe(null)
-                        expect(status).toBe(200)
-                        expect('id').toBe(productId)
-                        expect('name').toBe(expect.any(String))
-                        expect('img_url').toBe(expect.any(String))
-                        expect('price').toBe(expect.any(Number))
-                        expect('stock').toBe(expect.any(Number))
+                        expect(response.status).toBe(200)
+                        expect(response.body).toHaveProperty('id', expect.any(Number))
+                        expect(response.body).toHaveProperty('name', expect.any(String))
+                        expect(response.body).toHaveProperty('image_url', expect.any(String))
+                        expect(response.body).toHaveProperty('price', expect.any(Number))
+                        expect(response.body).toHaveProperty('stock', expect.any(Number))
                         done()
                     })
             }) 
@@ -182,8 +217,9 @@ describe('Product Routes', () => {
                     .delete(`/products/${productId}`)
                     .end((err, response) => {
                         expect(err).toBe(null)
-                        expect(status).toBe(404)
-                        expect('error').toBe("Internal Server Error")
+                        expect(response.status).toBe(404)
+                        expect(response.body).toHaveProperty('error')
+                        expect(response.body.error).toBe("Product not found")
                         done()
                     })
             }) 

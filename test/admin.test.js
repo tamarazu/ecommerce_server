@@ -1,24 +1,37 @@
 const request = require('supertest')
 const app = require('../app')
+const { sequelize } = require('../models')
+const { queryInterface } = sequelize
+const { Admin } = require('../models')
 
 
-describe('Admin Routes', () => {
+describe('Admin Routes',() => {
+    afterAll((done) => {
+        Admin
+            .destroy({
+                where : {}
+            })
+            .then(response => {
+                done()
+            })
+            .catch(err => done(err))
+    })
 
     describe('Admin Registration Test', () => {
 
         describe('Admin Registration Success', () => {
-            test('it should return new object and status 201', () => {
+            test('it should return new object and status 201', (done) => {
                 request(app)
                     .post('/register')
                     .send({
-                        email: 'mara@mail.com',
-                        password: '123456'
+                        email: "mama@mail.com",
+                        password: "123456"
                     })
                     .end((err, response) => {
                         expect(err).toBe(null)
-                        expect(status).toBe(201)
-                        expect('id').toBe(expect.any(Number))
-                        expect('email').toBe('mara@mail.com')
+                        expect(response.body).toHaveProperty('id', expect.any(Number))
+                        expect(response.body).toHaveProperty('email', expect.any(String))
+                        expect(response.status).toBe(201)
                         done()
                     })
             }) 
@@ -26,16 +39,19 @@ describe('Admin Routes', () => {
 
         describe('Admin Regitsration Error', () => {
             const errors =  ["Email is required", "Invalid email format!", "Password is required", "Password length must between 6 and 14"]
-            test('it should return array of errors and status 400', () => {
+            test('it should return array of errors and status 400', (done) => {
                 request(app)
                     .post('/register')
                     .send({
+                        email: "tamarayahoomm",
+                        password: "123456"
                     })
                     .end((err, response) => {
                         expect(err).toBe(null)
-                        expect(status).toBe(400)
-                        expect('errors').toBe(expect.any(Array))
-                        expect('errors').toBe(expect.arrayContaining(errors))
+                        expect(response.body).toHaveProperty('errors')
+                        expect(response.body.errors.length).toBeGreaterThan(0)
+                        expect(response.body.errors).toContain(expect.arrayContaining(errors))
+                        expect(response.status).toBe(400)
                         done()
                     })
             }) 
@@ -54,8 +70,9 @@ describe('Admin Routes', () => {
                     })
                     .end((err, response) => {
                         expect(err).toBe(null)
-                        expect(status).toBe(200)
-                        expect('access_token').toBe(expect.any(String))
+                        expect(response.status).toBe(200)
+                        expect(response.body).toHaveProperty('access_token')
+                        expect(response.body.access_token).toBe(expect.any(String))
                         done()
                     })
             }) 
@@ -69,11 +86,13 @@ describe('Admin Routes', () => {
                     })
                     .end((err, response) => {
                         expect(err).toBe(null)
-                        expect(status).toBe(404)
-                        expect('error').toBe("email / password invalid")
+                        expect(response.status).toBe(404)
+                        expect(response.body).toHaveProperty('error')
+                        expect(response.body.error).toBe("email / password invalid")
                         done()
                     })
             }) 
         })
     })
 })
+
