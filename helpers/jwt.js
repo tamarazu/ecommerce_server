@@ -5,7 +5,7 @@ module.exports = {
     generateToken: (data) => {
         return jwt.sign(data, PRIVATKEY)
     },
-    verifyToken: (token => {
+    verifyToken: (token) => {
         return jwt.verify(token, PRIVATKEY)
-    })
+    }
 }
