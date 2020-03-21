@@ -2,7 +2,6 @@ const { Product } = require('../models')
 
 class ProductController{
     static create(req, res, next){
-        console.log("MASUK NIH SINI DI CREATE++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=")
         let { name, image_url, price, stock } = req.body
         Product
             .create({ name, image_url, price, stock })
@@ -36,7 +35,6 @@ class ProductController{
 
     static update(req, res, next){
         let { name, image_url, price, stock } = req.body
-        console.log(req.body, '=======================================================')
         Product
             .update({ name, image_url, price, stock }, {
                 where: {
@@ -51,7 +49,6 @@ class ProductController{
                 })
             })
             .then(product => {
-                console.log('MASUK SINI WEEEEYYY ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
                 res.status(200).json(product)
             })
             .catch(next)
@@ -59,7 +56,6 @@ class ProductController{
 
     static remove(req, res, next){
         let productDelete 
-        console.log('masuk sini duluu ========================================================================')
         Product
             .findOne({
                 where: {
@@ -78,7 +74,6 @@ class ProductController{
                 }
             })
             .then(product => {
-                console.log('masuk sini duluu ========================================================================')
                 res.status(200).json(product)
             })
             .catch(next)

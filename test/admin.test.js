@@ -38,19 +38,62 @@ describe('Admin Routes',() => {
         })
 
         describe('Admin Regitsration Error', () => {
+            test('it should return array of errors and status 400 with error Email is required and password is required', (done) => {
+                request(app)
+                    .post('/register')
+                    .send({
+                    })
+                    .end((err, response) => {
+                        expect(err).toBe(null)
+                        expect(response.body).toHaveProperty('errors')
+                        expect(response.body.errors.length).toBeGreaterThan(0)
+                        expect(response.body.errors).toContain("Email is required")
+                        // expect(response.body.errors).toContain("Invalid email format!")
+                        expect(response.body.errors).toContain("Password is required")
+                        // expect(response.body.errors).toContain("Password length must between 6 and 14")
+                        expect(response.status).toBe(400)
+                        done()
+                    })
+            }) 
+        })
+
+
+        describe('Admin Regitsration Error', () => {
             const errors =  ["Email is required", "Invalid email format!", "Password is required", "Password length must between 6 and 14"]
             test('it should return array of errors and status 400', (done) => {
                 request(app)
                     .post('/register')
                     .send({
-                        email: "tamarayahoomm",
+                        email: 'maka@n',
+                        password: 'a'
+                    })
+                    .end((err, response) => {
+                        expect(err).toBe(null)
+                        expect(response.body).toHaveProperty('errors')
+                        expect(response.body.errors.length).toBeGreaterThan(0)
+                        // expect(response.body.errors).toContain("Email is required")
+                        expect(response.body.errors).toContain("Invalid email format (mail@mail.com)")
+                        // expect(response.body.errors).toContain("Password is required")
+                        expect(response.body.errors).toContain("Password length must between 6 and 14")
+                        expect(response.status).toBe(400)
+                        done()
+                    })
+            }) 
+        })
+
+        describe('Admin Regitsration Error', () => {
+            test('it should return array of errors and status 400 with error Email must be unique', (done) => {
+                request(app)
+                    .post('/register')
+                    .send({
+                        email: "mama@mail.com",
                         password: "123456"
                     })
                     .end((err, response) => {
                         expect(err).toBe(null)
                         expect(response.body).toHaveProperty('errors')
                         expect(response.body.errors.length).toBeGreaterThan(0)
-                        // expect(response.body.errors).toContain(expect.arrayContaining(errors))
+                        expect(response.body.errors).toContain("email must be unique")
                         expect(response.status).toBe(400)
                         done()
                     })
@@ -87,8 +130,8 @@ describe('Admin Routes',() => {
                     .end((err, response) => {
                         expect(err).toBe(null)
                         expect(response.status).toBe(400)
-                        // expect(response.body).toHaveProperty('error')
-                        // expect(response.body.error).toBe("email / password invalid")
+                        expect(response.body).toHaveProperty('error')
+                        expect(response.body.error).toBe("email / password invalid")
                         done()
                     })
             }) 
