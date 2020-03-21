@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt')
-const SALT = process.env.SALT
+const SALT = +process.env.SALT
 
 module.exports= {
     hashingPassword: (password) => {

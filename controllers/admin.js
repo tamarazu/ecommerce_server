@@ -4,8 +4,11 @@ const { generateToken } = require('../helpers/jwt')
 
 class AdminController {
     static register(req, res, next){
+        console.log('MASUK TAU KESINI TEHH')
+        console.log(req.body)
         let { email, password } = req.body
         let adminData =  { email, password }
+        console.log(adminData)
         Admin
             .create(adminData)
             .then(admin => {
