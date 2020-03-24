@@ -113,6 +113,7 @@
     }
     ```
 
+ ------
 
 **Create Product**
 ----
@@ -449,5 +450,626 @@
     }
     ```
 
+----
+
+**Register Costumer**
+----
+  Returns json data about Costumer.
+
+* **URL**
+
+  /registerCostumer
+
+* **Method:**
+
+  `POST`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `NONE`
+
+* **Data Params**
+    ```
+    {
+        email: [sting],
+        password: [string]
+    }
+    ```
+
+* **Success Response:**
+
+  * **Code:** 201 <br />
+    **Content:** 
+    ```
+    { 
+        "id" : [integer], 
+        "email" : [string]
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 400 BAD REQUEST <br />
+    **Content:**
+    ```
+    { 
+        errors : ["Email is required", "Invalid email format!", "Password is required", "Password length must between 6 and 14"] 
+    }
+    ```
+
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** 
+    ```
+    { 
+        error : "Internal Server Error" 
+    }
+    ```
+
+**Login Costumer**
+----
+  Returns json data about Admin.
+
+* **URL**
+
+  /loginCostumer
+
+* **Method:**
+
+  `POST`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `NONE`
+
+* **Data Params**
+    ```
+    {
+        email: [string],
+        password: [string]
+    }
+    ```
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```
+    { 
+        "access_token" : [string]
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 404 DATA NOT FOUND <br />
+    **Content:**
+    ```
+    { 
+        error : "email / password invalid"
+    }
+    ```
+
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** 
+    ```
+    { 
+        error : "Internal Server Error" 
+    }
+    ```
+----
+
+**Find All Promos**
+----
+  Returns array of json data about promos.
+
+* **URL**
+
+  /promos
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `NONE`
+
+* **Data Params**
+    `NONE`
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```
+    [
+      { 
+          id: [integer]
+          name : [string],
+          poster : [string]
+      },
+      { 
+          id: [integer]
+          name : [string],
+          poster : [string]
+      },
+      { 
+          id: [integer]
+          name : [string],
+          poster : [string]
+      }
+    ]
+    
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 404 DATA NOT FOUND <br />
+    **Content:**
+    ```
+    { 
+        error : "Data not found"
+    }
+    ```
+
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** 
+    ```
+    { 
+        error : "Internal Server Error" 
+    }
+    ```
+
+----
+
+**Find One Costumer**
+----
+  Returns json data about costumer.
+
+* **URL**
+
+  /profile
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `NONE`
+
+* **Data Params**
+    `NONE`
+
+* **Headers Params**
+    ```
+    {
+      access_token : [string]
+    }
+    ```
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```
+    { 
+        id: [integer]
+        name : [string],
+        balance : [integer],
+        phone: [integer],
+        email: [string],
+        password: [string]
+    }
+    
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 401 Unauthorized <br />
+    **Content:**
+    ```
+    { 
+        error : "Accessed denied"
+    }
+    ```
+
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** 
+    ```
+    { 
+        error : "Internal Server Error" 
+    }
+    ```
 
 
+
+**Update Profile Costumer**
+----
+  Returns json data about costumer.
+
+* **URL**
+
+  /profile
+
+* **Method:**
+
+  `PUT`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `NONE`
+
+* **Data Params**
+    ```
+    {
+      name: [string],
+      balance: [integer],
+      phone: [integer],
+      email: [string],
+      password: [string]
+    }
+    ```
+
+* **Headers Params**
+    ```
+    {
+      access_token : [string]
+    }
+    ```
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```
+    { 
+        id: [integer]
+        name : [string],
+        balance : [integer],
+        phone: [integer],
+        email: [string],
+        password: [string]
+    }
+    
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 401 Unauthorized <br />
+    **Content:**
+    ```
+    { 
+        error : "Access denied"
+    }
+    ```
+
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** 
+    ```
+    { 
+        error : "Internal Server Error" 
+    }
+    ```
+----
+
+
+**Find All Cart**
+----
+  Returns array of json data about cart.
+
+* **URL**
+
+  /cart
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `NONE`
+
+* **Data Params**
+    `NONE`
+
+* **Headers Params**
+    ```
+    {
+      access_token : [string]
+    }
+    ```
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```
+    [
+      { 
+        id: [integer]
+        amount : [string],
+        UserId : [integer],
+        ProductsId : [integer],
+        Prodoct: {
+            name : "Bottle",
+            img_url : "image.jpg",
+            price: 12000,
+            stock: 8
+        }
+      }
+    ]    
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 401 Unauthorized <br />
+    **Content:**
+    ```
+    { 
+        error : "Accessed denied"
+    }
+    ```
+
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** 
+    ```
+    { 
+        error : "Internal Server Error" 
+    }
+    ```
+
+
+
+
+**Create New Cart**
+----
+  Returns json data about Cart.
+
+* **URL**
+
+  /cart
+
+* **Method:**
+
+  `POST`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `NONE`
+
+* **Data Params**
+    ```
+    { 
+      id: [integer]
+      amount : [string],
+      UserId : [integer],
+      ProductsId : [integer]
+    }
+    ```
+
+
+* **Headers Params**
+    ```
+    {
+      access_token : [string]
+    }
+    ```
+
+* **Success Response:**
+
+  * **Code:** 201 <br />
+    **Content:** 
+    ```
+    { 
+      id: [integer]
+      amount : [string],
+      UserId : [integer],
+      ProductsId : [integer]
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 401 Unauthorized <br />
+    **Content:**
+    ```
+    { 
+        error : "Accessed denied"
+    }
+    ```
+
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** 
+    ```
+    { 
+        error : "Internal Server Error" 
+    }
+    ```
+
+    
+**Update Cart**
+----
+  Returns json data about Cart.
+
+* **URL**
+
+  /cart
+
+* **Method:**
+
+  `PUT`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   ```
+   {
+     id: [integer]
+   }
+   ```
+
+* **Data Params**
+
+    ```
+    { 
+      id: [integer]
+      amount : [string],
+      UserId : [integer],
+      ProductsId : [integer]
+    }
+    ```
+
+
+* **Headers Params**
+    ```
+    {
+      access_token : [string]
+    }
+    ```
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```
+    { 
+      id: [integer]
+      amount : [string],
+      UserId : [integer],
+      ProductsId : [integer],
+      Product : {
+        id: 1
+        name : "Bottle",
+        img_url : "image.jpg",
+        price: 12000,
+        stock: 8
+      }
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 401 Unauthorized <br />
+    **Content:**
+    ```
+    { 
+        error : "Accessed denied"
+    }
+    ```
+
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** 
+    ```
+    { 
+        error : "Internal Server Error" 
+    }
+    ```
+
+
+**Delete Cart**
+----
+  Returns json data about Cart.
+
+* **URL**
+
+  /cart
+
+* **Method:**
+
+  `DELETE`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   ```
+   {
+     id: [integer]
+   }
+   ```
+
+* **Data Params**
+
+    `NONE`
+
+
+* **Headers Params**
+    ```
+    {
+      access_token : [string]
+    }
+    ```
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```
+    { 
+      id: [integer]
+      amount : [string],
+      UserId : [integer],
+      ProductsId : [integer],
+      Product : {
+        id: 1
+        name : "Bottle",
+        img_url : "image.jpg",
+        price: 12000,
+        stock: 8
+      }
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 401 Unauthorized <br />
+    **Content:**
+    ```
+    { 
+        error : "Accessed denied"
+    }
+    ```
+
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** 
+    ```
+    { 
+        error : "Internal Server Error" 
+    }
+    ```
+
+    
