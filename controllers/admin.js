@@ -4,8 +4,11 @@ const { generateToken } = require('../helpers/jwt')
 
 class AdminController {
     static register(req, res, next){
+        console.log('MASUK TAU KESINI TEHH')
+        console.log(req.body)
         let { email, password } = req.body
         let adminData =  { email, password }
+        console.log(adminData)
         Admin
             .create(adminData)
             .then(admin => {
@@ -27,7 +30,9 @@ class AdminController {
                 }
             })
             .then(admin => {
+                // console.log(admin.email,'+++++++++++++++++++++++++++++')
                 if(admin) {
+                    // console.log(password, admin.password)
                     if(checkPassword(password, admin.password) === true) {
                         let adminLogin= {
                             id : admin.id,
@@ -38,12 +43,14 @@ class AdminController {
                             access_token
                         })
                     } else {
+                        console.log('LARI KESINIII ================================================')
                         next({
                             status : 404,
                             message: 'email / password wrong!'
                         })
                     }
                 } else {
+                    console.log('LARI KESINIII ATAU GAAAAA+++++++++++++++++++++++++++++++++++++')
                     next({
                         status : 404,
                         message: 'email / password wrong!'
