@@ -4,7 +4,7 @@ const ProductController = require('../controllers/product')
 const authentication = require('../middlewares/authetication')
 
 
-router.use(authentication)
+// router.use(authentication)
 router.post('/', ProductController.create)
 router.get('/', ProductController.findAll)
 router.get('/:id', ProductController.findOne)
