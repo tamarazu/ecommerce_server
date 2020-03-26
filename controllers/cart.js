@@ -55,18 +55,21 @@ class CartController{
             .catch(next)
     }
 
-    // static findOne(req, res, next){
-    //     Product
-    //         .findOne({
-    //             where : {
-    //                 id : req.params.id
-    //             }
-    //         })
-    //         .then(product => {
-    //             res.status(200).json(product)
-    //         })
-    //         .catch(next)
-    // }
+    static findOne(req, res, next){
+        Cart
+            .findOne({
+                where: {
+                    CostumerId : req.currentUserId
+                },
+                include: [
+                    Product
+                ]
+            })
+            .then(product => {
+                res.status(200).json(product)
+            })
+            .catch(next)
+    }
 
     static increase(req, res, next){
         Cart
@@ -112,7 +115,7 @@ class CartController{
         })
         .then(cart => {
             if(cart){
-                if(cart.amount > 1) {
+                if(cart.amount > 1 ) {
                     let decreaseAmount = cart.amount - 1
                     return Cart.update({
                         amount : decreaseAmount
