@@ -14,15 +14,14 @@
   
 *  **URL Params**
 
-   **Required:**
  
    `NONE`
 
 * **Data Params**
     ```
     {
-        email: 'tamara@mail.com,
-        password: 123456
+        email: [string],
+        password: [string]
     }
     ```
 
@@ -43,7 +42,7 @@
     **Content:**
     ```
     { 
-        errors : ["Email is required", "Invalid email format!", "Password is required", "Password length must between 6 and 14"] 
+        errors : [array or errors] 
     }
     ```
 
@@ -71,15 +70,14 @@
   
 *  **URL Params**
 
-   **Required:**
  
    `NONE`
 
 * **Data Params**
     ```
     {
-        email: 'tamara@mail.com,
-        password: 123456
+        email: [string],
+        password: [string]
     }
     ```
 
@@ -89,7 +87,7 @@
     **Content:** 
     ```
     { 
-        "access_token" : "eIdisy9qwoiqwndohqwddndpdhqpwhdohqod"
+        "access_token" : [string]
     }
     ```
  
@@ -128,24 +126,23 @@
   `POST`
   
 *  **URL Params**
-
-   **Required:**
  
    `NONE`
+
+* **Headers Params**
+    ```
+    {
+        access_token: [string]
+    }
+    ```
 
 * **Data Params**
     ```
     {
-        name : "Bottle",
-        img_url : "image.jpg",
-        price: 12000,
-        stock: 8
-    }
-    ```
-* **Headers Params**
-    ```
-    {
-        access_token: "eIjasldknasdnaksndioqdioqwndnwqiodqwonqw"
+        name : [string],
+        img_url : [string],
+        price: [integer],
+        stock: [integer]
     }
     ```
 * **Success Response:**
@@ -154,11 +151,11 @@
     **Content:** 
     ```
     { 
-        id: 1
-        name : "Bottle",
-        img_url : "image.jpg",
-        price: 12000,
-        stock: 8
+        id: [integer]
+        name : [string],
+        img_url : [string],
+        price: [integer],
+        stock: [integer]
     }
     ```
  
@@ -168,7 +165,7 @@
     **Content:**
     ```
     { 
-        errors : ["Name is required",  "Image Url is required" ,"Price is required", "Price must greater than 0",  "Stock is required","Stock must be greater than 0", "Stock is not allowed with decimal value"]
+        errors : [array of errors]
     }
     ```
 
@@ -210,27 +207,27 @@
     **Content:** 
     ```
     [
-        { 
-            id: 1
-            name : "Bottle",
-            img_url : "image.jpg",
-            price: 12000,
-            stock: 8
-        },
-        { 
-            id: 2
-            name : "Sauce",
-            img_url : "image.jpg",
-            price: 8000,
-            stock: 2
-        },
-        { 
-            id: 1
-            name : "Olive Oil",
-            img_url : "image.jpg",
-            price: 21000,
-            stock: 2
-        }
+      { 
+          id: [integer]
+          name : [string],
+          img_url : [string],
+          price: [integer],
+          stock: [integer]
+      },
+      { 
+          id: [integer]
+          name : [string],
+          img_url : [string],
+          price: [integer],
+          stock: [integer]
+      },
+      { 
+          id: [integer]
+          name : [string],
+          img_url : [string],
+          price: [integer],
+          stock: [integer]
+      }
     ]
     
     ```
@@ -241,7 +238,7 @@
     **Content:**
     ```
     { 
-        error : "Product not found"
+        error : [string]
     }
     ```
 
@@ -257,7 +254,7 @@
 
 **Find One Products**
 ----
-  Returns json data about products.
+  Returns json data about product.
 
 * **URL**
 
@@ -273,7 +270,7 @@
  
    ```
    {
-       id : 1
+       id : [integer]
    }
    ```
 
@@ -285,13 +282,13 @@
   * **Code:** 200 <br />
     **Content:** 
     ```
-    { 
-        id: 1
-        name : "Bottle",
-        img_url : "image.jpg",
-        price: 12000,
-        stock: 8
-    }    
+      { 
+          id: [integer]
+          name : [string],
+          img_url : [string],
+          price: [integer],
+          stock: [integer]
+      }  
     ```
  
 * **Error Response:**
@@ -332,19 +329,18 @@
  
    ```
    {
-       id : 1
+       id : [integer]
    }
    ```
 
 * **Data Params**
     ```
-    { 
-        id: 1
-        name : "Bottle Plastic",
-        img_url : "image.jpg",
-        price: 12000,
-        stock: 8
-    }  
+      { 
+        name : [string],
+        img_url : [string],
+        price: [integer],
+        stock: [integer]
+      } 
     ```
 
 * **Success Response:**
@@ -352,13 +348,13 @@
   * **Code:** 200 <br />
     **Content:** 
     ```
-    { 
-        id: 1
-        name : "Bottle",
-        img_url : "image.jpg",
-        price: 12000,
-        stock: 8
-    }    
+      { 
+        id: [integer]
+        name : [string],
+        img_url : [string],
+        price: [integer],
+        stock: [integer]
+      }
     ```
  
 * **Error Response:**
@@ -368,7 +364,7 @@
     **Content:**
     ```
     { 
-        errors : ["Price must greater than 0", "Stock must greater than 0", "Stock not allowed with decimal value"]
+        errors : [array of errors]
     }
     ```
 
@@ -409,7 +405,7 @@
  
    ```
    {
-       id : 1
+       id : [integer]
    }
    ```
 
@@ -422,11 +418,11 @@
     **Content:** 
     ```
     { 
-        id: 1
-        name : "Bottle",
-        img_url : "image.jpg",
-        price: 12000,
-        stock: 8
+        id: [integer]
+        name : [string],
+        img_url : [string],
+        price: [integer],
+        stock: [integer]
     }    
     ```
  
@@ -458,7 +454,7 @@
 
 * **URL**
 
-  /registerCostumer
+  /registerCostumers
 
 * **Method:**
 
@@ -495,7 +491,7 @@
     **Content:**
     ```
     { 
-        errors : ["Email is required", "Invalid email format!", "Password is required", "Password length must between 6 and 14"] 
+        errors : [array of errors] 
     }
     ```
 
@@ -511,11 +507,11 @@
 
 **Login Costumer**
 ----
-  Returns json data about Admin.
+  Returns json data about Costumer.
 
 * **URL**
 
-  /loginCostumer
+  /loginCostumers
 
 * **Method:**
 
@@ -564,73 +560,6 @@
         error : "Internal Server Error" 
     }
     ```
-----
-
-**Find All Promos**
-----
-  Returns array of json data about promos.
-
-* **URL**
-
-  /promos
-
-* **Method:**
-
-  `GET`
-  
-*  **URL Params**
-
-   **Required:**
- 
-   `NONE`
-
-* **Data Params**
-    `NONE`
-
-* **Success Response:**
-
-  * **Code:** 200 <br />
-    **Content:** 
-    ```
-    [
-      { 
-          id: [integer]
-          name : [string],
-          poster : [string]
-      },
-      { 
-          id: [integer]
-          name : [string],
-          poster : [string]
-      },
-      { 
-          id: [integer]
-          name : [string],
-          poster : [string]
-      }
-    ]
-    
-    ```
- 
-* **Error Response:**
-
-  * **Code:** 404 DATA NOT FOUND <br />
-    **Content:**
-    ```
-    { 
-        error : "Data not found"
-    }
-    ```
-
-  OR
-
-  * **Code:** 500 INTERNAL SERVER ERROR <br />
-    **Content:** 
-    ```
-    { 
-        error : "Internal Server Error" 
-    }
-    ```
 
 ----
 
@@ -640,7 +569,7 @@
 
 * **URL**
 
-  /profile
+  /costumers/:id
 
 * **Method:**
 
@@ -684,7 +613,7 @@
     **Content:**
     ```
     { 
-        error : "Accessed denied"
+        error : "Authorize denied"
     }
     ```
 
@@ -706,7 +635,7 @@
 
 * **URL**
 
-  /profile
+  /costumers/:id
 
 * **Method:**
 
@@ -814,10 +743,10 @@
         UserId : [integer],
         ProductsId : [integer],
         Prodoct: {
-            name : "Bottle",
-            img_url : "image.jpg",
-            price: 12000,
-            stock: 8
+            name : [string],
+            img_url : [string],
+            price: [integer],
+            stock: [integer]
         }
       }
     ]    
@@ -829,7 +758,7 @@
     **Content:**
     ```
     { 
-        error : "Accessed denied"
+        error : [string]
     }
     ```
 
@@ -901,7 +830,7 @@
     **Content:**
     ```
     { 
-        error : "Accessed denied"
+        errors : [string]
     }
     ```
 
@@ -915,87 +844,7 @@
     }
     ```
 
-    
-**Update Cart**
-----
-  Returns json data about Cart.
-
-* **URL**
-
-  /cart
-
-* **Method:**
-
-  `PUT`
-  
-*  **URL Params**
-
-   **Required:**
  
-   ```
-   {
-     id: [integer]
-   }
-   ```
-
-* **Data Params**
-
-    ```
-    { 
-      id: [integer]
-      amount : [string],
-      UserId : [integer],
-      ProductsId : [integer]
-    }
-    ```
-
-
-* **Headers Params**
-    ```
-    {
-      access_token : [string]
-    }
-    ```
-
-* **Success Response:**
-
-  * **Code:** 200 <br />
-    **Content:** 
-    ```
-    { 
-      id: [integer]
-      amount : [string],
-      UserId : [integer],
-      ProductsId : [integer],
-      Product : {
-        id: 1
-        name : "Bottle",
-        img_url : "image.jpg",
-        price: 12000,
-        stock: 8
-      }
-    }
-    ```
- 
-* **Error Response:**
-
-  * **Code:** 401 Unauthorized <br />
-    **Content:**
-    ```
-    { 
-        error : "Accessed denied"
-    }
-    ```
-
-  OR
-
-  * **Code:** 500 INTERNAL SERVER ERROR <br />
-    **Content:** 
-    ```
-    { 
-        error : "Internal Server Error" 
-    }
-    ```
 
 
 **Delete Cart**
@@ -1004,7 +853,7 @@
 
 * **URL**
 
-  /cart
+  /cart/:id
 
 * **Method:**
 
@@ -1072,4 +921,228 @@
     }
     ```
 
+
+**Increase Cart**
+----
+  Returns json data about Cart.
+
+* **URL**
+
+  /cart/:id/increase
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   ```
+   {
+     id: [integer]
+   }
+   ```
+
+* **Data Params**
+
+    `NONE`
+
+
+* **Headers Params**
+    ```
+    {
+      access_token : [string]
+    }
+    ```
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```
+    { 
+      id: [integer]
+      amount : [string],
+      UserId : [integer],
+      ProductsId : [integer],
+      Product : {
+        id: 1
+        name : "Bottle",
+        img_url : "image.jpg",
+        price: 12000,
+        stock: 8
+      }
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 401 Unauthorized <br />
+    **Content:**
+    ```
+    { 
+        error : [string]
+    }
+    ```
+
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** 
+    ```
+    { 
+        error : "Internal Server Error" 
+    }
+    ```
+
     
+    
+**Decrease Cart**
+----
+  Returns json data about Cart.
+
+* **URL**
+
+  /cart/:id/decrease
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   ```
+   {
+     id: [integer]
+   }
+   ```
+
+* **Data Params**
+
+    `NONE`
+
+
+* **Headers Params**
+    ```
+    {
+      access_token : [string]
+    }
+    ```
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```
+    { 
+      id: [integer]
+      amount : [string],
+      UserId : [integer],
+      ProductsId : [integer],
+      Product : {
+        id: 1
+        name : "Bottle",
+        img_url : "image.jpg",
+        price: 12000,
+        stock: 8
+      }
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 401 Unauthorized <br />
+    **Content:**
+    ```
+    { 
+        error : [string]
+    }
+    ```
+
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** 
+    ```
+    { 
+        error : "Internal Server Error" 
+    }
+    ```
+
+
+**Transaction Cart**
+----
+  Returns json data about Cart.
+
+* **URL**
+
+  /cart/:id/transaction
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   ```
+   {
+     id: [integer]
+   }
+   ```
+
+* **Data Params**
+
+    `NONE`
+
+
+* **Headers Params**
+    ```
+    {
+      access_token : [string]
+    }
+    ```
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```
+    { 
+      id: [integer]
+      amount : [string],
+      UserId : [integer],
+      ProductsId : [integer],
+      Product : {
+        id: 1
+        name : "Bottle",
+        img_url : "image.jpg",
+        price: 12000,
+        stock: 8
+      }
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 401 Unauthorized <br />
+    **Content:**
+    ```
+    { 
+        error : [string]
+    }
+    ```
+
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** 
+    ```
+    { 
+        error : "Internal Server Error" 
+    }
+    ```
