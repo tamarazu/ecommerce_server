@@ -112,7 +112,7 @@ class CartController{
         })
         .then(cart => {
             if(cart){
-                if(cart.amount > 0) {
+                if(cart.amount > 1) {
                     let decreaseAmount = cart.amount - 1
                     return Cart.update({
                         amount : decreaseAmount
