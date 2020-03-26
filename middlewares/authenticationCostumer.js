@@ -14,8 +14,10 @@ module.exports=(req, res, next) => {
             })
             .then(costumer => {
                 if(costumer) {
+                    req.currentUserId = costumer.id
                     next()
                 } else {
+                    console.log('Tertrolak')
                     next({
                         status : 401,
                         message: 'Authorize denied'

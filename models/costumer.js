@@ -4,7 +4,7 @@ const { hashingPassword } = require('../helpers/bcrypt')
 module.exports = (sequelize, DataTypes) => {
   const Model = sequelize.Sequelize.Model
   class Costumer extends Model{}
-  Class.init({
+  Costumer.init({
     name: DataTypes.STRING,
     balance: DataTypes.INTEGER,
     phone: DataTypes.STRING,
@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Costumer.associate = function(models) {
     // associations can be defined here
-    Costumer.belongsTo(models.Cart)
+    Costumer.hasMany(models.Cart)
   };
   return Costumer;
 };
