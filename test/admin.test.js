@@ -39,18 +39,41 @@ describe('Admin Routes',() => {
 
         describe('Admin Regitsration Error', () => {
             const errors =  ["Email is required", "Invalid email format!", "Password is required", "Password length must between 6 and 14"]
-            test('it should return array of errors and status 400', (done) => {
+            test('it should return array of errrors invalid email, error of length password and status 400', (done) => {
                 request(app)
                     .post('/register')
                     .send({
                         email: "tamarayahoomm",
-                        password: "123456"
+                        password: "123"
                     })
                     .end((err, response) => {
                         expect(err).toBe(null)
                         expect(response.body).toHaveProperty('errors')
                         expect(response.body.errors.length).toBeGreaterThan(0)
-                        // expect(response.body.errors).toContain(expect.arrayContaining(errors))
+                        expect(response.body.errors).toContain("Invalid email format (mail@mail.com)")
+                        expect(response.body.errors).toContain("Password length must between 6 and 14")
+                        expect(response.status).toBe(400)
+                        done()
+                    })
+            }) 
+        })
+
+
+        describe('Admin Regitsration Error', () => {
+            const errors =  ["Email is required", "Invalid email format!", "Password is required", "Password length must between 6 and 14"]
+            test('it should return array of errors because of null value and status 400', (done) => {
+                request(app)
+                    .post('/register')
+                    .send({
+                        email: "",
+                        password: ""
+                    })
+                    .end((err, response) => {
+                        expect(err).toBe(null)
+                        expect(response.body).toHaveProperty('errors')
+                        expect(response.body.errors.length).toBeGreaterThan(0)
+                        expect(response.body.errors).toContain("Email is required")
+                        expect(response.body.errors).toContain("Password is required")
                         expect(response.status).toBe(400)
                         done()
                     })
@@ -59,36 +82,36 @@ describe('Admin Routes',() => {
     })
     
     describe('Admin Login Test', () => {
-
         describe('Admin Login Success', () => {
-            test('it should return new object and status 200', () => {
+            test('it should return new object and status 200', (done) => {
                 request(app)
                     .post('/login')
                     .send({
-                        email: 'mara@mail.com',
+                        email: 'mama@mail.com',
                         password: '123456'
                     })
                     .end((err, response) => {
                         expect(err).toBe(null)
-                        expect(response.status).toBe(200)
                         expect(response.body).toHaveProperty('access_token')
-                        expect(response.body.access_token).toBe(expect.any(String))
+                        expect(response.body).toHaveProperty("access_token",expect.any(String))
+                        expect(response.status).toBe(200)
                         done()
                     })
             }) 
         })
 
         describe('Admin Login Error', () => {
-            test('it should return object and status 404', () => {
+            test('it should return object and status 404', (done) => {
                 request(app)
-                    .post('/register')
+                    .post('/login')
                     .send({
+                        email: '',
+                        password: ''
                     })
                     .end((err, response) => {
                         expect(err).toBe(null)
-                        expect(response.status).toBe(400)
-                        // expect(response.body).toHaveProperty('error')
-                        // expect(response.body.error).toBe("email / password invalid")
+                        expect(response.status).toBe(404)
+                        expect(response.body.error).toContain("email / password wrong!")
                         done()
                     })
             }) 

@@ -7,7 +7,7 @@ class CostumerController{
     static register(req, res, next){
         let { email, password } = req.body
         let costumerData =  { email, password }
-        console.log(costumerData)
+        // console.log(costumerData)
         Costumer
             .create(costumerData)
             .then(costumer => {
@@ -21,9 +21,9 @@ class CostumerController{
     }
 
     static login(req, res, next){
-        console.log('KE HIT KESINIIII')
+        // console.log('KE HIT KESINIIII')
         let { email, password } = req.body
-        console.log(email)
+        // console.log(email)
         Costumer
             .findOne({
                 where : {
@@ -31,7 +31,7 @@ class CostumerController{
                 }
             })
             .then(costumer => {
-                console.log(costumer,'+++++++++++++++++++++++++++++')
+                // console.log(costumer,'+++++++++++++++++++++++++++++')
                 if(costumer) {
                     // console.log(password, costumer.password)
                     if(checkPassword(password, costumer.password) === true) {
@@ -44,14 +44,14 @@ class CostumerController{
                             access_token
                         })
                     } else {
-                        console.log('LARI KESINIII ================================================')
+                        // console.log('LARI KESINIII ================================================')
                         next({
                             status : 404,
                             message: 'email / password wrong!'
                         })
                     }
                 } else {
-                    console.log('LARI KESINIII ATAU GAAAAA+++++++++++++++++++++++++++++++++++++')
+                    // console.log('LARI KESINIII ATAU GAAAAA+++++++++++++++++++++++++++++++++++++')
                     next({
                         status : 404,
                         message: 'email / password wrong!'
@@ -59,7 +59,7 @@ class CostumerController{
                 }
             })
             .catch(err => {
-                console.log(err)
+                // console.log(err)
                 next({
                     status : 404,
                     message: 'email / password wrong!'
@@ -68,7 +68,7 @@ class CostumerController{
     }
 
     static findOne(req, res, next){
-        console.log('LARI KE FIND ONE NIH')
+        // console.log('LARI KE FIND ONE NIH')
         Costumer
             .findOne({
                 where : {
@@ -80,7 +80,7 @@ class CostumerController{
                 if(costumer) {
                     res.status(200).json(costumer)
                 } else {
-                    console.log('LARI KESINIII ATAU GAAAAA+++++++++++++++++++++++++++++++++++++')
+                    // console.log('LARI KESINIII ATAU GAAAAA+++++++++++++++++++++++++++++++++++++')
                     next({
                         status : 401,
                         message: 'Authorize denied'
@@ -88,9 +88,9 @@ class CostumerController{
                 }
             })
             .catch(err => {
-                console.log('INI NIH ERRRORNYAAAA')
-                console.log(err)
-                console.log('ITU TU ERRORRNYAAA')
+                // console.log('INI NIH ERRRORNYAAAA')
+                // console.log(err)
+                // console.log('ITU TU ERRORRNYAAA')
                 next({
                     status : 401,
                     message: 'Authorize denied'
@@ -101,7 +101,7 @@ class CostumerController{
 
     static update(req, res, next){
         const { name, balance, phone, email, password} = req.body
-        console.log('INI NIH DATANYAA',{ name, balance, phone, email, password} )
+        // console.log('INI NIH DATANYAA',{ name, balance, phone, email, password} )
         Costumer
             .findOne({
                 where : {
@@ -109,7 +109,7 @@ class CostumerController{
                 }
             })
             .then(costumer => {
-                console.log(costumer.email,'+++++++++++++++\++++++++++++++')
+                // console.log(costumer.email,'+++++++++++++++\++++++++++++++')
                 if(costumer) {
                     return Costumer.update({ name, balance, phone, email, password}, {
                         where: {
@@ -117,7 +117,7 @@ class CostumerController{
                         }
                     })
                 } else {
-                    console.log('LARI KESINIII ATAU GAAAAA+++++++++++++++++++++++++++++++++++++')
+                    // console.log('LARI KESINIII ATAU GAAAAA+++++++++++++++++++++++++++++++++++++')
                     next({
                         status : 401,
                         message: 'Authorize denied'

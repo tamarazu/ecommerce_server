@@ -2,7 +2,7 @@ const { Product } = require('../models')
 
 class ProductController{
     static create(req, res, next){
-        console.log("MASUK NIH SINI DI CREATE++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=")
+        // console.log("MASUK NIH SINI DI CREATE++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=")
         let { name, image_url, price, stock } = req.body
         Product
             .create({ name, image_url, price, stock })
@@ -29,14 +29,21 @@ class ProductController{
                 }
             })
             .then(product => {
-                res.status(200).json(product)
+                if(product) {
+                    res.status(200).json(product)
+                } else {
+                    next({
+                        status : 404,
+                        message: 'Product not found!'
+                    })
+                }
             })
             .catch(next)
     }
 
     static update(req, res, next){
         let { name, image_url, price, stock } = req.body
-        console.log(req.body, '=======================================================')
+        // console.log(req.body, '=======================================================')
         Product
             .update({ name, image_url, price, stock }, {
                 where: {
@@ -51,7 +58,7 @@ class ProductController{
                 })
             })
             .then(product => {
-                console.log('MASUK SINI WEEEEYYY ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+                // console.log('MASUK SINI WEEEEYYY ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
                 res.status(200).json(product)
             })
             .catch(next)
@@ -59,7 +66,10 @@ class ProductController{
 
     static remove(req, res, next){
         let productDelete 
-        console.log('masuk sini duluu ========================================================================')
+        // console.log('masuk sini duluu ========================================================================')
+        // console.log("INI DI DELETE CUY")
+        // console.log(req.params.id)
+        // console.log(product)
         Product
             .findOne({
                 where: {
@@ -67,7 +77,7 @@ class ProductController{
                 }
             })
             .then(product => {
-                if(product){
+                if(product !== null ){
                     productDelete = product
                     return Product.destroy({
                         where: {
@@ -75,11 +85,16 @@ class ProductController{
                         }
                         
                     })
+                } else {
+                    next({
+                        status : 404,
+                        message: 'Product not found'
+                    })
                 }
             })
             .then(product => {
-                console.log('masuk sini duluu ========================================================================')
-                res.status(200).json(product)
+                // console.log('masuk sini duluu ========================================================================')
+                res.status(200).json(productDelete)
             })
             .catch(next)
     }
